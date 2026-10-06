@@ -30,6 +30,4 @@ Desarrollar un sistema que facilite la administración de las reparaciones de te
 * Seguimiento del estado de las reparaciones.
 * Consulta de información de las reparaciones.
 
-## 👨‍💻 Proyecto académico
 
-Este proyecto es desarrollado con fines académicos como parte de un proyecto universitario.
