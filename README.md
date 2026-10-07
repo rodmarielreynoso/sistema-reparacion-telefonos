@@ -11,7 +11,7 @@ Desarrollar un sistema que facilite la administración de las reparaciones de te
 
 ## 🛠️ Tecnologías
 
-* C#
+* C# 
 * ASP.NET Core
 * HTML
 * CSS
