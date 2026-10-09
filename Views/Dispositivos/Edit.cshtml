@@ -1,0 +1,61 @@
+@model sistema_reparacion_telefonos.Models.Dispositivo
+
+@{
+    ViewData["Title"] = "Editar Dispositivo";
+}
+
+<h1>Editar Dispositivo</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post">
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label class="form-label">Cliente</label>
+                <select asp-for="ClienteId" class="form-select">
+                    <option value="">Seleccione un cliente</option>
+
+                    @foreach (var cliente in ViewBag.Clientes)
+                    {
+                        <option value="@cliente.Id">
+                            @cliente.Nombre
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Marca" class="form-label">Marca</label>
+                <input asp-for="Marca" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Modelo" class="form-label">Modelo</label>
+                <input asp-for="Modelo" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="NumeroSerie" class="form-label">Número de Serie</label>
+                <input asp-for="NumeroSerie" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="IMEI" class="form-label">IMEI</label>
+                <input asp-for="IMEI" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Guardar Cambios
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary">
+                Cancelar
+            </a>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+@model IEnumerable<sistema_reparacion_telefonos.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<h1>Clientes</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nuevo Cliente</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Correo</th>
+            <th>Dirección</th>
+        </tr>
+    </thead>
+<tbody>
+    @foreach (var cliente in Model)
+    {
+        <tr>
+            <td>@cliente.Nombre</td>
+            <td>@cliente.Telefono</td>
+            <td>@cliente.Correo</td>
+            <td>@cliente.Direccion</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@cliente.Id" class="btn btn-warning btn-sm">
+                    Editar
+                </a>
+                <a asp-action="Details" asp-route-id="@cliente.Id" class="btn btn-info btn-sm">
+                    Detalles
+                </a>
+            </td>
+        </tr>
+    }
+</tbody>
+</table>

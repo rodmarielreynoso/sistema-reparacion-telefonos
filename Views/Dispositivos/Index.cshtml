@@ -1,0 +1,53 @@
+@model IEnumerable<sistema_reparacion_telefonos.Models.Dispositivo>
+
+@{
+ViewData["Title"] = "Dispositivos";
+}
+
+<h1>Dispositivos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nuevo Dispositivo</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Número de Serie</th>
+            <th>IMEI</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+```
+<tbody>
+    @foreach (var dispositivo in Model)
+    {
+        <tr>
+            <td>@dispositivo.Cliente?.Nombre</td>
+            <td>@dispositivo.Marca</td>
+            <td>@dispositivo.Modelo</td>
+            <td>@dispositivo.NumeroSerie</td>
+            <td>@dispositivo.IMEI</td>
+            <td>
+                <a asp-action="Edit"
+                   asp-route-id="@dispositivo.Id"
+                   class="btn btn-warning btn-sm">
+                    Editar
+                </a>
+
+                <a asp-action="Details"
+                   asp-route-id="@dispositivo.Id"
+                   class="btn btn-info btn-sm">
+                    Detalles
+                </a>
+            </td>
+        </tr>
+    }
+</tbody>
+```
+
+</table>

@@ -1,0 +1,79 @@
+@model IEnumerable<sistema_reparacion_telefonos.Models.Reparacion>
+
+@{
+ViewData["Title"] = "Reparaciones";
+}
+
+<div class="container mt-4">
+    <h1>Reparaciones</h1>
+    <p>Administra las reparaciones de los dispositivos registrados.</p>
+
+```
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        Nueva reparación
+    </a>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Cliente</th>
+                <th>Dispositivo</th>
+                <th>Problema</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Fecha de ingreso</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var reparacion in Model)
+            {
+                <tr>
+                    <td>
+                        @(reparacion.Dispositivo?.Cliente?.Nombre ?? "Sin cliente")
+                    </td>
+
+                    <td>
+                        @(reparacion.Dispositivo?.Marca ?? "")
+                        @(reparacion.Dispositivo?.Modelo ?? "")
+                    </td>
+
+                    <td>@reparacion.Problema</td>
+
+                    <td>@reparacion.Precio.ToString("N2")</td>
+
+                    <td>
+                        <span class="badge bg-info text-dark">
+                            @reparacion.Estado
+                        </span>
+                    </td>
+
+                    <td>
+                        @reparacion.FechaIngreso.ToString("dd/MM/yyyy HH:mm")
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit"
+                           asp-route-id="@reparacion.Id"
+                           class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+
+                        <a asp-action="Details"
+                           asp-route-id="@reparacion.Id"
+                           class="btn btn-info btn-sm">
+                            Detalles
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+```
+
+</div>

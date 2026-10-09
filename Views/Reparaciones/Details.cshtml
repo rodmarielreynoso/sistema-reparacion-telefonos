@@ -1,0 +1,94 @@
+@model sistema_reparacion_telefonos.Models.Reparacion
+
+@{
+ViewData["Title"] = "Detalles de la reparación";
+}
+
+<div class="container mt-4">
+    <h1>Detalles de la reparación</h1>
+    <p>Información completa de la reparación registrada.</p>
+    <hr />
+
+```
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        Información de la reparación
+    </div>
+
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4">Cliente</dt>
+            <dd class="col-sm-8">
+                @(Model.Dispositivo?.Cliente?.Nombre ?? "Sin cliente")
+            </dd>
+
+            <dt class="col-sm-4">Teléfono del cliente</dt>
+            <dd class="col-sm-8">
+                @(Model.Dispositivo?.Cliente?.Telefono ?? "No disponible")
+            </dd>
+
+            <dt class="col-sm-4">Marca del dispositivo</dt>
+            <dd class="col-sm-8">
+                @(Model.Dispositivo?.Marca ?? "No disponible")
+            </dd>
+
+            <dt class="col-sm-4">Modelo</dt>
+            <dd class="col-sm-8">
+                @(Model.Dispositivo?.Modelo ?? "No disponible")
+            </dd>
+
+            <dt class="col-sm-4">Número de serie</dt>
+            <dd class="col-sm-8">
+                @(Model.Dispositivo?.NumeroSerie ?? "No disponible")
+            </dd>
+
+            <dt class="col-sm-4">IMEI</dt>
+            <dd class="col-sm-8">
+                @(Model.Dispositivo?.IMEI ?? "No disponible")
+            </dd>
+
+            <dt class="col-sm-4">Problema reportado</dt>
+            <dd class="col-sm-8">@Model.Problema</dd>
+
+            <dt class="col-sm-4">Diagnóstico</dt>
+            <dd class="col-sm-8">@Model.Diagnostico</dd>
+
+            <dt class="col-sm-4">Precio</dt>
+            <dd class="col-sm-8">
+                @Model.Precio.ToString("N2")
+            </dd>
+
+            <dt class="col-sm-4">Estado</dt>
+            <dd class="col-sm-8">
+                <span class="badge bg-info text-dark">
+                    @Model.Estado
+                </span>
+            </dd>
+
+            <dt class="col-sm-4">Fecha de ingreso</dt>
+            <dd class="col-sm-8">
+                @Model.FechaIngreso.ToString("dd/MM/yyyy HH:mm")
+            </dd>
+
+            <dt class="col-sm-4">Fecha de entrega</dt>
+            <dd class="col-sm-8">
+                @(Model.FechaEntrega.HasValue
+                    ? Model.FechaEntrega.Value.ToString("dd/MM/yyyy HH:mm")
+                    : "Pendiente")
+            </dd>
+        </dl>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Volver a reparaciones
+        </a>
+
+        <a asp-action="Edit"
+           asp-route-id="@Model.Id"
+           class="btn btn-warning">
+            Editar reparación
+        </a>
+    </div>
+</div>
+```
+
+</div>

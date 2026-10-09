@@ -1,0 +1,37 @@
+@model sistema_reparacion_telefonos.Models.Cliente
+
+@{
+    ViewData["Title"] = "Detalles del Cliente";
+}
+
+<h1>Detalles del Cliente</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <dl class="row">
+            <dt class="col-sm-4">Nombre</dt>
+            <dd class="col-sm-8">@Model.Nombre</dd>
+
+            <dt class="col-sm-4">Teléfono</dt>
+            <dd class="col-sm-8">@Model.Telefono</dd>
+
+            <dt class="col-sm-4">Correo</dt>
+            <dd class="col-sm-8">@Model.Correo</dd>
+
+            <dt class="col-sm-4">Dirección</dt>
+            <dd class="col-sm-8">@Model.Direccion</dd>
+        </dl>
+
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+            Editar
+        </a>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Volver
+        </a>
+
+    </div>
+</div>

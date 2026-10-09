@@ -1,0 +1,54 @@
+@model sistema_reparacion_telefonos.Models.Dispositivo
+
+@{
+ViewData["Title"] = "Detalles del dispositivo";
+}
+
+<div class="container mt-4">
+    <h1>Detalles del dispositivo</h1>
+    <hr />
+
+```
+<div class="card shadow-sm">
+    <div class="card-header">
+        Información del dispositivo
+    </div>
+
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Marca</dt>
+            <dd class="col-sm-9">@Model.Marca</dd>
+
+            <dt class="col-sm-3">Modelo</dt>
+            <dd class="col-sm-9">@Model.Modelo</dd>
+
+            <dt class="col-sm-3">Número de serie</dt>
+            <dd class="col-sm-9">@Model.NumeroSerie</dd>
+
+            <dt class="col-sm-3">IMEI</dt>
+            <dd class="col-sm-9">@Model.IMEI</dd>
+
+            <dt class="col-sm-3">Cliente</dt>
+            <dd class="col-sm-9">
+                @(Model.Cliente?.Nombre ?? "Sin cliente asignado")
+            </dd>
+
+            <dt class="col-sm-3">Teléfono del cliente</dt>
+            <dd class="col-sm-9">
+                @(Model.Cliente?.Telefono ?? "No disponible")
+            </dd>
+        </dl>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Volver a la lista
+        </a>
+
+        <a asp-action="Edit" asp-route-id="@Model.Id"
+           class="btn btn-primary">
+            Editar dispositivo
+        </a>
+    </div>
+</div>
+```
+
+</div>
