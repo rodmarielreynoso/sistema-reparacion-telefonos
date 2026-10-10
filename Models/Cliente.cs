@@ -11,5 +11,7 @@ namespace sistema_reparacion_telefonos.Models
         public string Correo { get; set; } = string.Empty;
 
         public string Direccion { get; set; } = string.Empty;
+
+        public string? IdentityUserId { get; set; }
     }
 }

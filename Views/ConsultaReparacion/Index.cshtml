@@ -1,0 +1,81 @@
+@{
+    ViewData["Title"] = "Consultar reparación";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="mb-0">Consultar reparación</h3>
+                </div>
+
+                <div class="card-body p-4">
+                    <p class="text-center text-muted mb-4">
+                        Consulta el estado de la reparación de tu dispositivo
+                        utilizando tu código de seguimiento y el teléfono
+                        registrado.
+                    </p>
+
+                    @if (ViewBag.Mensaje != null)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            @ViewBag.Mensaje
+                        </div>
+                    }
+
+                    <form asp-controller="ConsultaReparacion"
+                          asp-action="Index"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label for="codigoSeguimiento"
+                                   class="form-label">
+                                Código de seguimiento
+                            </label>
+
+                            <input type="text"
+                                   id="codigoSeguimiento"
+                                   name="codigoSeguimiento"
+                                   class="form-control"
+                                   placeholder="Ej. REP-7A34108597ED"
+                                   maxlength="50"
+                                   required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="telefono" class="form-label">
+                                Teléfono registrado
+                            </label>
+
+                            <input type="tel"
+                                   id="telefono"
+                                   name="telefono"
+                                   class="form-control"
+                                   placeholder="Introduce tu teléfono"
+                                   maxlength="30"
+                                   required />
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Consultar estado
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <a asp-controller="Home" asp-action="Index"
+                           class="text-decoration-none">
+                            Volver al inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

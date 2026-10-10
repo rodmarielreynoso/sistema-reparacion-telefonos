@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sistema_reparacion_telefonos.Data;
@@ -5,6 +6,7 @@ using sistema_reparacion_telefonos.Models;
 
 namespace sistema_reparacion_telefonos.Controllers
 {
+    [Authorize(Roles = "Tecnico")]
     public class ClientesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -71,6 +73,17 @@ namespace sistema_reparacion_telefonos.Controllers
 
             if (ModelState.IsValid)
             {
+                var clienteExistente = await _context.Clientes
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.Id == id);
+
+                if (clienteExistente == null)
+                {
+                    return NotFound();
+                }
+
+                cliente.IdentityUserId = clienteExistente.IdentityUserId;
+
                 _context.Update(cliente);
                 await _context.SaveChangesAsync();
 

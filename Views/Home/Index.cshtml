@@ -1,17 +1,336 @@
 ﻿@{
-ViewData["Title"] = "Inicio";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Sistema de Reparación de Teléfonos</h1>
+<div class="dashboard-container">
 
-<p class="lead">
-    Bienvenido al sistema de gestión de reparaciones.
-</p>
+    <!-- ENCABEZADO -->
+    <div class="dashboard-header">
+        <div>
+            <span class="dashboard-eyebrow">PANEL DE CONTROL</span>
 
-<p>
-    Administra clientes, teléfonos, reparaciones y servicios
-    de manera sencilla y organizada.
-</p>
+            <h2>Dashboard</h2>
+
+            <p class="dashboard-description">
+                @if (User.IsInRole("Tecnico"))
+                {
+                    <text>Resumen general del taller y gestión de reparaciones.</text>
+                }
+                else
+                {
+                    <text>Consulta el estado de tus reparaciones de forma rápida y sencilla.</text>
+                }
+            </p>
+        </div>
+
+        @if (User.IsInRole("Tecnico"))
+        {
+            <a asp-controller="Reparaciones"
+               asp-action="Create"
+               class="dashboard-new-button">
+                <i class="fas fa-plus"></i>
+                Nueva reparación
+            </a>
+        }
+        else
+        {
+            <a asp-controller="ConsultaReparacion"
+               asp-action="Index"
+               class="dashboard-new-button">
+                <i class="fas fa-magnifying-glass"></i>
+                Consultar reparación
+            </a>
+        }
+    </div>
+
+    @if (User.IsInRole("Tecnico"))
+    {
+        <!-- TARJETAS ESTADÍSTICAS -->
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+                <div>
+                    <h3>Resumen general</h3>
+                    <p>Indicadores principales de tu taller</p>
+                </div>
+
+                <span class="section-icon">
+                    <i class="fas fa-chart-line"></i>
+                </span>
+            </div>
+
+            <div class="dashboard-stats">
+
+                <!-- CLIENTES -->
+                <div class="stat-card stat-green">
+                    <div class="stat-card-top">
+                        <span class="stat-label">Ingresos de clientes</span>
+
+                        <span class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </span>
+                    </div>
+
+                    <div class="stat-number">
+                        @ViewBag.TotalClientes
+                    </div>
+
+                    <div class="stat-bottom">
+                        <span>Clientes registrados</span>
+
+                        <a asp-controller="Clientes"
+                           asp-action="Index"
+                           aria-label="Ver clientes"
+                           title="Ver clientes">
+                            <i class="fas fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- DISPOSITIVOS -->
+                <div class="stat-card stat-blue">
+                    <div class="stat-card-top">
+                        <span class="stat-label">Total de dispositivos</span>
+
+                        <span class="stat-icon">
+                            <i class="fas fa-mobile-screen-button"></i>
+                        </span>
+                    </div>
+
+                    <div class="stat-number">
+                        @ViewBag.TotalDispositivos
+                    </div>
+
+                    <div class="stat-bottom">
+                        <span>Teléfonos registrados</span>
+
+                        <a asp-controller="Dispositivos"
+                           asp-action="Index"
+                           aria-label="Ver dispositivos"
+                           title="Ver dispositivos">
+                            <i class="fas fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- REPARACIONES -->
+                <div class="stat-card stat-orange">
+                    <div class="stat-card-top">
+                        <span class="stat-label">Órdenes de reparación</span>
+
+                        <span class="stat-icon">
+                            <i class="fas fa-screwdriver-wrench"></i>
+                        </span>
+                    </div>
+
+                    <div class="stat-number">
+                        @ViewBag.TotalReparaciones
+                    </div>
+
+                    <div class="stat-bottom">
+                        <span>Reparaciones registradas</span>
+
+                        <a asp-controller="Reparaciones"
+                           asp-action="Index"
+                           aria-label="Ver reparaciones"
+                           title="Ver reparaciones">
+                            <i class="fas fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PENDIENTES -->
+                <div class="stat-card stat-purple">
+                    <div class="stat-card-top">
+                        <span class="stat-label">Órdenes pendientes</span>
+
+                        <span class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </span>
+                    </div>
+
+                    <div class="stat-number">
+                        @ViewBag.ReparacionesPendientes
+                    </div>
+
+                    <div class="stat-bottom">
+                        <span>Reparaciones no entregadas</span>
+
+                        <a asp-controller="Reparaciones"
+                           asp-action="Index"
+                           aria-label="Dar seguimiento"
+                           title="Dar seguimiento">
+                            <i class="fas fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ACCESOS RÁPIDOS -->
+        <section class="dashboard-section quick-access-section">
+
+            <div class="section-heading">
+                <div>
+                    <h3>Accesos rápidos</h3>
+                    <p>Administra las operaciones de tu taller</p>
+                </div>
+            </div>
+
+            <div class="quick-access-grid">
+
+                <!-- CLIENTE -->
+                <a asp-controller="Clientes"
+                   asp-action="Create"
+                   class="quick-access-card">
+
+                    <div class="quick-icon quick-icon-blue">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+
+                    <div class="quick-card-content">
+                        <h4>Registrar cliente</h4>
+
+                        <p>
+                            Agrega un nuevo cliente al sistema.
+                        </p>
+
+                        <span class="quick-card-link">
+                            Nuevo cliente
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- DISPOSITIVO -->
+                <a asp-controller="Dispositivos"
+                   asp-action="Create"
+                   class="quick-access-card">
+
+                    <div class="quick-icon quick-icon-green">
+                        <i class="fas fa-mobile-screen-button"></i>
+                    </div>
+
+                    <div class="quick-card-content">
+                        <h4>Registrar dispositivo</h4>
+
+                        <p>
+                            Registra un teléfono y asígnalo a un cliente.
+                        </p>
+
+                        <span class="quick-card-link">
+                            Nuevo dispositivo
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- REPARACIÓN -->
+                <a asp-controller="Reparaciones"
+                   asp-action="Create"
+                   class="quick-access-card">
+
+                    <div class="quick-icon quick-icon-orange">
+                        <i class="fas fa-screwdriver-wrench"></i>
+                    </div>
+
+                    <div class="quick-card-content">
+                        <h4>Registrar reparación</h4>
+
+                        <p>
+                            Registra el problema y el diagnóstico del teléfono.
+                        </p>
+
+                        <span class="quick-card-link">
+                            Nueva reparación
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- INFORMACIÓN DEL TALLER -->
+        <section class="dashboard-bottom-grid">
+
+            <div class="dashboard-info-card">
+                <div class="info-card-heading">
+                    <div class="info-card-icon info-blue">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+
+                    <div>
+                        <h4>Gestión de reparaciones</h4>
+                        <p>Consulta y administra las órdenes del taller.</p>
+                    </div>
+                </div>
+
+                <a asp-controller="Reparaciones"
+                   asp-action="Index"
+                   class="info-card-button">
+                    Ver todas las reparaciones
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="dashboard-info-card">
+                <div class="info-card-heading">
+                    <div class="info-card-icon info-purple">
+                        <i class="fas fa-magnifying-glass"></i>
+                    </div>
+
+                    <div>
+                        <h4>Consulta de reparaciones</h4>
+                        <p>Accede a la página de seguimiento por código.</p>
+                    </div>
+                </div>
+
+                <a asp-controller="ConsultaReparacion"
+                   asp-action="Index"
+                   class="info-card-button">
+                    Abrir seguimiento
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </section>
+    }
+    else
+    {
+        <!-- PANEL DEL CLIENTE -->
+        <section class="client-welcome-card">
+
+            <div class="client-welcome-icon">
+                <i class="fas fa-mobile-screen-button"></i>
+            </div>
+
+            <h3>Consulta tu reparación</h3>
+
+            <p>
+                Consulta el estado de tu teléfono utilizando el código
+                de seguimiento que recibiste cuando registraste la reparación.
+            </p>
+
+            <a asp-controller="ConsultaReparacion"
+               asp-action="Index"
+               class="dashboard-new-button">
+                <i class="fas fa-magnifying-glass"></i>
+                Consultar estado
+            </a>
+
+            @if (User.IsInRole("Cliente"))
+            {
+                <a asp-controller="MiPanel"
+                   asp-action="Index"
+                   class="client-panel-link">
+                    También puedes consultar tus dispositivos y reparaciones
+                    desde Mi panel.
+                </a>
+            }
+
+        </section>
+    }
 
 </div>

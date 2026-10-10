@@ -1,0 +1,213 @@
+@model sistema_reparacion_telefonos.Models.MiPanelViewModel
+
+@{
+    ViewData["Title"] = "Mi Panel";
+}
+
+<div class="mi-panel-page container-fluid mt-4">
+
+    <!-- ENCABEZADO DEL PANEL -->
+    <section class="panel-hero">
+        <div class="panel-eyebrow">
+            <i class="fas fa-layer-group"></i>
+            ÁREA DEL CLIENTE
+        </div>
+
+        <h1>Mi Panel</h1>
+
+        <p>
+            Bienvenido a tu espacio personal. Consulta tus dispositivos
+            registrados y mantente al tanto del progreso de tus reparaciones.
+        </p>
+    </section>
+
+    @if (!Model.ClienteVinculado)
+    {
+        <div class="panel-alert mb-4">
+            <i class="fas fa-circle-info me-2"></i>
+            <strong>Cuenta pendiente de vinculación.</strong>
+            No encontramos un registro de cliente asociado a tu cuenta.
+            Si ya tienes reparaciones registradas, contacta al técnico
+            para verificar tus datos.
+        </div>
+    }
+    else
+    {
+        <!-- MIS DISPOSITIVOS -->
+        <section class="panel-section">
+
+            <div class="panel-section-heading">
+                <div class="panel-section-icon">
+                    <i class="fas fa-mobile-screen-button"></i>
+                </div>
+
+                <div>
+                    <h2>Mis dispositivos</h2>
+                    <p>Información de los teléfonos registrados a tu nombre.</p>
+                </div>
+            </div>
+
+            @if (!Model.Dispositivos.Any())
+            {
+                <div class="panel-alert">
+                    <i class="fas fa-mobile-screen me-2"></i>
+                    Todavía no tienes dispositivos registrados.
+                </div>
+            }
+            else
+            {
+                <div class="panel-table-wrap">
+                    <table class="panel-table">
+                        <thead>
+                            <tr>
+                                <th>MARCA</th>
+                                <th>MODELO</th>
+                                <th>NÚMERO DE SERIE</th>
+                                <th>IMEI</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var dispositivo in Model.Dispositivos)
+                            {
+                                <tr>
+                                    <td>
+                                        <strong>@dispositivo.Marca</strong>
+                                    </td>
+                                    <td>@dispositivo.Modelo</td>
+                                    <td>@dispositivo.NumeroSerie</td>
+                                    <td>@dispositivo.IMEI</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
+
+        <!-- MIS REPARACIONES -->
+        <section class="panel-section">
+
+            <div class="panel-section-heading">
+                <div class="panel-section-icon">
+                    <i class="fas fa-screwdriver-wrench"></i>
+                </div>
+
+                <div>
+                    <h2>Mis reparaciones</h2>
+                    <p>Consulta el estado y el progreso de cada reparación.</p>
+                </div>
+            </div>
+
+            @if (!Model.Reparaciones.Any())
+            {
+                <div class="panel-alert">
+                    <i class="fas fa-clipboard-list me-2"></i>
+                    Todavía no tienes reparaciones registradas.
+                </div>
+            }
+            else
+            {
+                <div class="panel-table-wrap">
+                    <table class="panel-table">
+                        <thead>
+                            <tr>
+                                <th>CÓDIGO</th>
+                                <th>DISPOSITIVO</th>
+                                <th>PROBLEMA</th>
+                                <th>DIAGNÓSTICO</th>
+                                <th>ESTADO</th>
+                                <th>PROGRESO</th>
+                                <th>PRECIO</th>
+                                <th>INGRESO</th>
+                                <th>ENTREGA</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var reparacion in Model.Reparaciones)
+                            {
+                                var estado = reparacion.Estado?.Trim() ?? "";
+
+                                var progreso = estado switch
+                                {
+                                    "Recibido" => 25,
+                                    "En reparación" => 50,
+                                    "Reparado" => 75,
+                                    "Entregado" => 100,
+                                    _ => 0
+                                };
+
+                                <tr>
+                                    <td>
+                                        <span class="panel-code">
+                                            @reparacion.CodigoSeguimiento
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            @(reparacion.Dispositivo?.Marca ?? "")
+                                        </strong>
+                                        <br />
+                                        <span>
+                                            @(reparacion.Dispositivo?.Modelo ?? "")
+                                        </span>
+                                    </td>
+
+                                    <td>@reparacion.Problema</td>
+
+                                    <td>
+                                        @(string.IsNullOrWhiteSpace(reparacion.Diagnostico)
+                                            ? "Pendiente"
+                                            : reparacion.Diagnostico)
+                                    </td>
+
+                                    <td>
+                                        <span class="panel-status">
+                                            <i class="fas fa-circle me-2"
+                                               style="font-size: 7px;"></i>
+                                            @estado
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="panel-progress">
+                                            <div class="panel-progress-bar"
+                                                 style="width: @(progreso)%;"
+                                                 role="progressbar"
+                                                 aria-valuenow="@progreso"
+                                                 aria-valuemin="0"
+                                                 aria-valuemax="100">
+                                            </div>
+                                        </div>
+
+                                        <span class="panel-progress-label">
+                                            @progreso% completado
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            @reparacion.Precio.ToString("N2")
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        @reparacion.FechaIngreso.ToString("dd/MM/yyyy HH:mm")
+                                    </td>
+
+                                    <td>
+                                        @(reparacion.FechaEntrega.HasValue
+                                            ? reparacion.FechaEntrega.Value.ToString("dd/MM/yyyy HH:mm")
+                                            : "Pendiente")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </section>
+    }
+</div>

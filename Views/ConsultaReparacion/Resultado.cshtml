@@ -1,0 +1,93 @@
+@model sistema_reparacion_telefonos.Models.Reparacion
+
+@{
+    ViewData["Title"] = "Estado de la reparación";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="mb-0">Estado de tu reparación</h3>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+                        <p class="text-muted mb-1">Código de seguimiento</p>
+
+                        <h4 class="text-primary">
+                            @Model.CodigoSeguimiento
+                        </h4>
+
+                        <span class="badge bg-info text-dark fs-6">
+                            @Model.Estado
+                        </span>
+                    </div>
+
+                    <hr />
+
+                    <h5 class="mb-3">Información del dispositivo</h5>
+
+                    <dl class="row">
+                        <dt class="col-sm-5">Marca</dt>
+                        <dd class="col-sm-7">
+                            @(Model.Dispositivo?.Marca ?? "No disponible")
+                        </dd>
+
+                        <dt class="col-sm-5">Modelo</dt>
+                        <dd class="col-sm-7">
+                            @(Model.Dispositivo?.Modelo ?? "No disponible")
+                        </dd>
+
+                        <dt class="col-sm-5">Problema reportado</dt>
+                        <dd class="col-sm-7">
+                            @Model.Problema
+                        </dd>
+
+                        <dt class="col-sm-5">Fecha de ingreso</dt>
+                        <dd class="col-sm-7">
+                            @Model.FechaIngreso.ToString("dd/MM/yyyy HH:mm")
+                        </dd>
+
+                        <dt class="col-sm-5">Precio</dt>
+                        <dd class="col-sm-7">
+                            @Model.Precio.ToString("N2")
+                        </dd>
+
+                        <dt class="col-sm-5">Fecha de entrega</dt>
+                        <dd class="col-sm-7">
+                            @(Model.FechaEntrega.HasValue
+                                ? Model.FechaEntrega.Value.ToString("dd/MM/yyyy HH:mm")
+                                : "Todavía no se ha entregado")
+                        </dd>
+                    </dl>
+
+                    <div class="alert alert-info mt-3">
+                        <strong>Importante:</strong>
+                        consulta nuevamente esta página para comprobar
+                        si el estado de tu reparación ha cambiado.
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <a asp-controller="ConsultaReparacion"
+                           asp-action="Index"
+                           class="btn btn-primary">
+                            Consultar otra reparación
+                        </a>
+
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="btn btn-outline-secondary">
+                            Volver al inicio
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

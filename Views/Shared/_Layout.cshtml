@@ -1,97 +1,350 @@
 ﻿<!DOCTYPE html>
-
 <html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sistema de Reparación de Teléfonos</title>
 
+    <title>@ViewData["Title"] - Reparación de Teléfonos</title>
 
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/sistema_reparacion_telefonos.styles.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
 
+    <link rel="stylesheet"
+          href="~/sistema_reparacion_telefonos.styles.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm">
-            <div class="container-fluid">
-                <a class="navbar-brand"
+    <div class="app-container">
+
+        <!-- =====================================
+             MENÚ LATERAL VERTICAL
+             ===================================== -->
+        <aside class="sidebar" id="sidebar">
+
+            <!-- NOMBRE DEL SISTEMA -->
+            <a class="sidebar-brand"
+               asp-controller="Home"
+               asp-action="Index">
+
+                <div class="brand-icon">
+                    <i class="fas fa-mobile-screen-button"></i>
+                </div>
+
+                <div class="brand-info">
+                    <span class="brand-title">Reparación de</span>
+                    <span class="brand-title">Teléfonos</span>
+                    <span class="brand-subtitle">Sistema de gestión</span>
+                </div>
+
+            </a>
+
+            <!-- MENÚ PRINCIPAL -->
+            <div class="sidebar-section">
+
+                <span class="sidebar-heading">PRINCIPAL</span>
+
+                <a class="sidebar-link"
                    asp-controller="Home"
                    asp-action="Index">
-                    Reparación de Teléfonos
+
+                    <i class="fas fa-house"></i>
+                    <span>Inicio</span>
+
                 </a>
 
-
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#menuPrincipal"
-                    aria-controls="menuPrincipal"
-                    aria-expanded="false"
-                    aria-label="Mostrar navegación">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="menuPrincipal">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Home"
-                           asp-action="Index">
-                            Inicio
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Clientes"
-                           asp-action="Index">
-                            Clientes
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Dispositivos"
-                           asp-action="Index">
-                            Dispositivos
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           asp-controller="Reparaciones"
-                           asp-action="Index">
-                            Reparaciones
-                        </a>
-                    </li>
-                </ul>
             </div>
+
+            <!-- GESTIÓN DEL TALLER -->
+            @if (User.IsInRole("Tecnico"))
+            {
+                <div class="sidebar-section">
+
+                    <span class="sidebar-heading">GESTIÓN</span>
+
+                    <a class="sidebar-link"
+                       asp-controller="Clientes"
+                       asp-action="Index">
+
+                        <i class="fas fa-users"></i>
+                        <span>Clientes</span>
+
+                    </a>
+
+                    <a class="sidebar-link"
+                       asp-controller="Dispositivos"
+                       asp-action="Index">
+
+                        <i class="fas fa-mobile-screen-button"></i>
+                        <span>Dispositivos</span>
+
+                    </a>
+
+                    <a class="sidebar-link"
+                       asp-controller="Reparaciones"
+                       asp-action="Index">
+
+                        <i class="fas fa-screwdriver-wrench"></i>
+                        <span>Reparaciones</span>
+
+                    </a>
+
+                </div>
+            }
+
+            <!-- SERVICIOS -->
+            <div class="sidebar-section">
+
+                <span class="sidebar-heading">SERVICIOS</span>
+
+                <a class="sidebar-link"
+                   asp-controller="ConsultaReparacion"
+                   asp-action="Index">
+
+                    <i class="fas fa-magnifying-glass"></i>
+                    <span>Consultar reparación</span>
+
+                </a>
+
+                @if (User.IsInRole("Cliente"))
+                {
+                    <a class="sidebar-link"
+                       asp-controller="MiPanel"
+                       asp-action="Index">
+
+                        <i class="fas fa-house-user"></i>
+                        <span>Mi panel</span>
+
+                    </a>
+                }
+
+            </div>
+
+            <!-- USUARIO Y CIERRE DE SESIÓN -->
+            <div class="sidebar-bottom">
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="sidebar-user">
+
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+
+                        <div class="user-info">
+
+                            <span class="user-name">
+                                @(User.Identity.Name ?? "Usuario")
+                            </span>
+
+                            <span class="user-role">
+                                @(User.IsInRole("Tecnico")
+                                    ? "Técnico"
+                                    : "Cliente")
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <form asp-controller="Account"
+                          asp-action="Logout"
+                          method="post">
+
+                        <button type="submit"
+                                class="sidebar-link sidebar-logout">
+
+                            <i class="fas fa-right-from-bracket"></i>
+                            <span>Cerrar sesión</span>
+
+                        </button>
+
+                    </form>
+                }
+                else
+                {
+                    <a class="sidebar-link"
+                       asp-controller="Account"
+                       asp-action="Login">
+
+                        <i class="fas fa-right-to-bracket"></i>
+                        <span>Iniciar sesión</span>
+
+                    </a>
+
+                    <a class="sidebar-link"
+                       asp-controller="Registro"
+                       asp-action="Index">
+
+                        <i class="fas fa-user-plus"></i>
+                        <span>Crear cuenta</span>
+
+                    </a>
+                }
+
+            </div>
+
+        </aside>
+
+        <!-- =====================================
+             CONTENIDO PRINCIPAL
+             ===================================== -->
+        <div class="main-wrapper">
+
+            <!-- ENCABEZADO SUPERIOR -->
+            <header class="top-header">
+
+                <button class="sidebar-toggle"
+                        id="sidebarToggle"
+                        type="button"
+                        aria-label="Abrir o cerrar menú"
+                        aria-expanded="false">
+
+                    <i class="fas fa-bars"></i>
+
+                </button>
+
+                <div class="header-title">
+
+                    <span class="header-overline">
+                        PANEL DE CONTROL
+                    </span>
+
+                    <h1>@ViewData["Title"]</h1>
+
+                </div>
+
+                <div class="header-actions">
+
+                    <span class="header-date">
+                        <i class="far fa-calendar"></i>
+                        Gestión de reparaciones
+                    </span>
+
+                </div>
+
+            </header>
+
+            <!-- CONTENIDO DE CADA PÁGINA -->
+            <main class="main-content">
+
+                @RenderBody()
+
+            </main>
+
+            <!-- PIE DE PÁGINA -->
+            <footer class="main-footer">
+
+                <div>
+                    <strong>Reparación de Teléfonos</strong>
+                    <span> | Sistema de gestión de reparaciones</span>
+                </div>
+
+                <span class="footer-status">
+
+                    <span class="status-dot"></span>
+                    Sistema de gestión
+
+                </span>
+
+            </footer>
+
         </div>
-    </nav>
-</header>
 
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
-
-<footer class="border-top footer text-muted mt-4 py-3">
-    <div class="container">
-        &copy; @DateTime.Now.Year - Sistema de Reparación de Teléfonos
     </div>
-</footer>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- =====================================
+         SCRIPTS
+         ===================================== -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-@await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const toggle = document.getElementById("sidebarToggle");
+            const sidebar = document.getElementById("sidebar");
+
+            // Abrir y cerrar el menú en pantallas pequeñas.
+            if (toggle && sidebar) {
+
+                toggle.addEventListener("click", function () {
+
+                    const isOpen =
+                        sidebar.classList.toggle("sidebar-open");
+
+                    toggle.setAttribute(
+                        "aria-expanded",
+                        isOpen ? "true" : "false"
+                    );
+
+                });
+
+            }
+
+            // Marcar la opción correspondiente a la página actual.
+            const currentPath =
+                window.location.pathname.toLowerCase();
+
+            document.querySelectorAll(".sidebar-link").forEach(
+                function (link) {
+
+                    const href = link.getAttribute("href");
+
+                    if (!href || href === "#") {
+                        return;
+                    }
+
+                    const linkPath = new URL(
+                        href,
+                        window.location.origin
+                    ).pathname.toLowerCase();
+
+                    if (
+                        linkPath === currentPath &&
+                        !link.classList.contains("sidebar-logout")
+                    ) {
+                        link.classList.add("active");
+                    }
+
+                }
+            );
+
+            // Cerrar el menú móvil al seleccionar una opción.
+            document.querySelectorAll(".sidebar-link").forEach(
+                function (link) {
+
+                    link.addEventListener("click", function () {
+
+                        if (
+                            window.innerWidth <= 900 &&
+                            !link.classList.contains("sidebar-logout")
+                        ) {
+                            sidebar?.classList.remove("sidebar-open");
+
+                            toggle?.setAttribute(
+                                "aria-expanded",
+                                "false"
+                            );
+                        }
+
+                    });
+
+                }
+            );
+
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>

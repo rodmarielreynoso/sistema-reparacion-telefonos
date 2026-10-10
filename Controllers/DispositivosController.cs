@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sistema_reparacion_telefonos.Data;
@@ -5,6 +6,7 @@ using sistema_reparacion_telefonos.Models;
 
 namespace sistema_reparacion_telefonos.Controllers
 {
+    [Authorize(Roles = "Tecnico")]
     public class DispositivosController : Controller
     {
         private readonly ApplicationDbContext _context;

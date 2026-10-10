@@ -1,0 +1,149 @@
+@model sistema_reparacion_telefonos.Controllers.RegistroViewModel
+
+@{
+    ViewData["Title"] = "Registro de clientes";
+}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h3 class="mb-1">👤 Crear cuenta</h3>
+                    <p class="mb-0">Registro de nuevos clientes</p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <p class="text-muted text-center mb-4">
+                        Completa tus datos para registrarte en nuestro sistema.
+                    </p>
+
+                    <form asp-controller="Registro"
+                          asp-action="Index"
+                          method="post">
+
+                        <div asp-validation-summary="All"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label">
+                                Nombre completo
+                            </label>
+
+                            <input asp-for="Nombre"
+                                   class="form-control"
+                                   placeholder="Escribe tu nombre completo"
+                                   autocomplete="name" />
+
+                            <span asp-validation-for="Nombre"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Correo" class="form-label">
+                                Correo electrónico
+                            </label>
+
+                            <input asp-for="Correo"
+                                   type="email"
+                                   class="form-control"
+                                   placeholder="correo@ejemplo.com"
+                                   autocomplete="email" />
+
+                            <span asp-validation-for="Correo"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Telefono" class="form-label">
+                                Teléfono
+                            </label>
+
+                            <input asp-for="Telefono"
+                                   type="tel"
+                                   class="form-control"
+                                   placeholder="Ej.: 809-000-0000"
+                                   autocomplete="tel" />
+
+                            <span asp-validation-for="Telefono"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Direccion" class="form-label">
+                                Dirección
+                            </label>
+
+                            <input asp-for="Direccion"
+                                   class="form-control"
+                                   placeholder="Escribe tu dirección"
+                                   autocomplete="street-address" />
+
+                            <span asp-validation-for="Direccion"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Contrasena" class="form-label">
+                                Contraseña
+                            </label>
+
+                            <input asp-for="Contrasena"
+                                   type="password"
+                                   class="form-control"
+                                   placeholder="Crea una contraseña segura"
+                                   autocomplete="new-password" />
+
+                            <span asp-validation-for="Contrasena"
+                                  class="text-danger"></span>
+
+                            <small class="text-muted">
+                                Debe tener al menos 8 caracteres, una mayúscula,
+                                una minúscula, un número y un símbolo.
+                            </small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ConfirmarContrasena"
+                                   class="form-label">
+                                Confirmar contraseña
+                            </label>
+
+                            <input asp-for="ConfirmarContrasena"
+                                   type="password"
+                                   class="form-control"
+                                   placeholder="Repite tu contraseña"
+                                   autocomplete="new-password" />
+
+                            <span asp-validation-for="ConfirmarContrasena"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary btn-lg w-100">
+                            Crear mi cuenta
+                        </button>
+
+                    </form>
+
+                    <hr />
+
+                    <div class="text-center">
+                        ¿Ya tienes una cuenta?
+                        <a asp-controller="Account"
+                           asp-action="Login"
+                           class="text-decoration-none">
+                            Inicia sesión
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
